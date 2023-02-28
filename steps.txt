@@ -1,0 +1,11 @@
+STEPS
+1.create a dataproc cluster with bigquery connector using following command
+CLUSTER_NAME=dataproc-demo2 REGION=us-east1 
+gcloud dataproc clusters create ${CLUSTER_NAME} --region ${REGION} --single-node --master-machine-type n1-standard-2 --master-boot-disk-size 500 --image-version 2.0-debian10 --project learngcp-ace-guide-342819 --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/connectors/connectors.sh --metadata bigquery-connector-version=1.2.0 --metadata spark-bigquery-connector-version=0.21.0
+
+2.add above files to gcp editor 
+3.convert csv to parquet using above file
+4.create a table in bigquery manually with the help of converted parquet file.(which have duplicates)
+5.Run a pyspark job with following command 
+gcloud dataproc jobs submit pyspark readfrombq.py --cluster=dataproc-demo1 --region=us-east1 --jars=gs://spark-lib/bigquery/spark-bigquery-latest.jar
+6.add all details(file path ,bucketname,bigquery table path to python script and run the job.
